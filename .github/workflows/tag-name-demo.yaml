@@ -1,0 +1,20 @@
+name: Get Tag Name Example
+on:
+  push:
+    tags:
+      - '*' # This ensures the workflow runs when any tag is pushed
+
+jobs:
+  show_tag_name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display tag name
+        run: |
+          echo "Tag name using GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          echo "Tag name using github.ref_name context: ${{ github.ref_name }}"
+      
+      - name: Parse tag name from GITHUB_REF (if needed)
+        # This approach works by stripping the 'refs/tags/' prefix
+        run: |
+          TAG_NAME=$(echo $GITHUB_REF | sed -e 's/refs\/tags\///g')
+          echo "Parsed tag name: $TAG_NAME"
